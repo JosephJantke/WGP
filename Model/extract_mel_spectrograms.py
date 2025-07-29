@@ -74,5 +74,5 @@ def get_birdnet_v24_spectrograms(waveform):
 
     return mel_low_db, mel_high_db
 
-# todo both spectrograms should have a final resolution of 96x511 pixels
+# todo both spectrograms should have a final resolution of 96x511 pixels, CHECK THIS!!!
 
