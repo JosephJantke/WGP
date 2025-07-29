@@ -1,10 +1,13 @@
 import torch
 import torchaudio
+import os
+import glob
+import shutil
 from torchaudio.transforms import MelSpectrogram, AmplitudeToDB
 
 #TODO MAKE SURE ALL AUDIO FILES ARE 5 SECONDS EXACTLY
 
-### Generating waveforms for melspec converstion
+### Function for generating waveforms for melspec conversion
 
 def load_and_preprocess_wav(file_path, target_sr=48000, duration=5.0):
     waveform, sr = torchaudio.load(file_path)
@@ -23,7 +26,7 @@ def load_and_preprocess_wav(file_path, target_sr=48000, duration=5.0):
 
     return waveform
 
-### Generating melspectrograms
+### Function for generating melspectrograms
 
 def get_birdnet_v24_spectrograms(waveform):
 
@@ -74,5 +77,26 @@ def get_birdnet_v24_spectrograms(waveform):
 
     return mel_low_db, mel_high_db
 
-# todo both spectrograms should have a final resolution of 96x511 pixels, CHECK THIS!!!
+### Create Melspectrums from audio in "wavs_for_mel_conversion"
+os.chdir("D:/PhD/WGP_model/from_toshiba_dbca_examples/wavs_for_mel_conversion")
+folder = "D:/PhD/WGP_model/from_toshiba_dbca_examples/wavs_for_mel_conversion/**/*.wav"
+
+###segment audio into 5 second snippets if necessary NOTE: DELETES THE ORIGINAL AUDIO FILE
+for file in glob.glob(folder, recursive=True):
+    join_path = os.path.join(folder, file)
+    # print(file)
+    print(file)
+    #Processn wave forms
+    waveform = load_and_preprocess_wav(file, target_sr=48000, duration=5.0)
+    #Generate melspectrograms
+    mel1, mel2 = get_birdnet_v24_spectrograms(waveform)
+    filename = os.path.splitext(file)[0]
+
+    #TODO CHANGE THE BELOW CODE TO EXPORT THE MELSPECTROGRAMS AS TENSORS - ASK CHATTY FOR MORE INFO
+
+    #save melspectrograms to "mel_spectrograms"
+    torch.save(mel1, os.path.join("D:/PhD/WGP_model/from_toshiba_dbca_examples/mel_spectrograms/", f"{filename}_mellow.pt"))
+    torch.save(mel2, os.path.join("D:/PhD/WGP_model/from_toshiba_dbca_examples/mel_spectrograms/", f"{filename}_melhigh.pt"))
+
+# all melspectrograms should have a final resolution of 96x511 pixels, CHECK THIS!!!
 
