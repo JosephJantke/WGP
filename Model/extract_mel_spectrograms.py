@@ -75,7 +75,13 @@ def get_birdnet_v24_spectrograms(waveform):
     mel_low_db = AmplitudeToDB(top_db=80)(mel_low)    #the value 80 here probably deserves some more research
     mel_high_db = AmplitudeToDB(top_db=80)(mel_high)
 
+    #Ensure output is [3, 96, 511] - 3 because 3 channels necessary for efficientnet backbone, 96 x 511 to match birdnet
+    mel_low_db = mel_low_db.squeeze(0).unsqueeze(0).repeat(3, 1, 1)
+    mel_high_db = mel_high_db.squeeze(0).unsqueeze(0).repeat(3, 1, 1)
+
     return mel_low_db, mel_high_db
+
+### Function for ensuring all melspectrograms are 96 x 511 (guessing that they pad/truncate the melspectrograms)
 
 ### Create Melspectrums from audio in "wavs_for_mel_conversion"
 os.chdir("D:/PhD/WGP_model/from_toshiba_dbca_examples/wavs_for_mel_conversion")
@@ -92,11 +98,9 @@ for file in glob.glob(folder, recursive=True):
     mel1, mel2 = get_birdnet_v24_spectrograms(waveform)
     filename = os.path.splitext(file)[0]
 
-    #TODO CHANGE THE BELOW CODE TO EXPORT THE MELSPECTROGRAMS AS TENSORS - ASK CHATTY FOR MORE INFO
-
-    #save melspectrograms to "mel_spectrograms"
-    torch.save(mel1, os.path.join("D:/PhD/WGP_model/from_toshiba_dbca_examples/mel_spectrograms/", f"{filename}_mellow.pt"))
-    torch.save(mel2, os.path.join("D:/PhD/WGP_model/from_toshiba_dbca_examples/mel_spectrograms/", f"{filename}_melhigh.pt"))
+    #save melspectrogram tensors to "wavs_for_mel_conversion" (even though the code says "mel_spectrograms" directory...
+    torch.save(mel1, os.path.join("D:/PhD/WGP_model/from_toshiba_dbca_examples/mel_spectrograms/", f"{filename}_mel_low.pt"))
+    torch.save(mel2, os.path.join("D:/PhD/WGP_model/from_toshiba_dbca_examples/mel_spectrograms/", f"{filename}_mel_high.pt"))
 
 # all melspectrograms should have a final resolution of 96x511 pixels, CHECK THIS!!!
 

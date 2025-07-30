@@ -253,4 +253,25 @@ for file in glob.glob(folder, recursive=True):
     #remove the original whole file
     os.remove(file)
 
-###
+### delete this
+
+os.chdir("D:/PhD/WGP_model/from_toshiba_dbca_examples/CANP_monitoring_ARU_calls")
+folder = "D:/PhD/WGP_model/from_toshiba_dbca_examples/CANP_monitoring_ARU_calls/**/*.wav"
+
+for file in glob.glob(folder, recursive=True):
+    join_path = os.path.join(folder, file)
+    # print(file)
+    audio_length = print_audio_length(file)
+
+    #remove audio if less than five seconds
+    if audio_length < 5:
+        continue
+
+    # 0-5 second segment
+    if audio_length > 5:
+        input_file = file
+        output_file = file
+        # print(output_file)
+        start_time = 0
+        end_time = 3000
+        cut_audio(input_file, output_file, start_time, end_time)
