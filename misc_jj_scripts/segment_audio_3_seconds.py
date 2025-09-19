@@ -48,9 +48,9 @@ def cut_audio(input_file, output_file, start_time, end_time):
     cut_audio.export(output_file, format="wav")
 
 ### processing calls in specified directory
-base_dir = "D:/PhD/WGP_model/toshiba_dbca_examples_tps/Jims_ARU_good_calls_recordings/screened_recordings"
+base_dir = "D:/PhD/WGP_model/toshiba_dbca_examples_tps/CANP_wgp_calls_recordings/calls_by_place/screened_recordings"
 pattern = os.path.join(base_dir, "**/*.wav")
-output_dir = "D:/PhD/WGP_model/toshiba_dbca_examples_tps/Jims_ARU_good_calls_recordings/all_3_second_snippets"
+output_dir = "D:/PhD/WGP_model/toshiba_dbca_examples_tps/CANP_wgp_calls_recordings/calls_by_place/all_3_second_snippets"
 os.makedirs(output_dir, exist_ok=True)
 
 ### replace whitespaces with underscore if necessary

@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="wgp" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="wgp" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="UMAP" project-jdk-type="Python SDK" />
 </project>
