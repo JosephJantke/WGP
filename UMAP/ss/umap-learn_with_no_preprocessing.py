@@ -4,16 +4,28 @@ import os, glob, numpy as np, librosa, matplotlib, matplotlib.pyplot as plt, uma
 matplotlib.use("TkAgg")
 
 # ---------------- Config ----------------
-AUDIO_DIR = "C:/Users/a1801526/PycharmProjects/WGP_laptop/UMAP/D_syllables"
+import os, glob, numpy as np, librosa, matplotlib, matplotlib.pyplot as plt, umap
+matplotlib.use("TkAgg")
+
+# ---------------- Config ----------------
+#no audio preprocessing but has the same time normalisation as in "umap-learn_with_time_normalisation.py"
+
+import os, glob, numpy as np, librosa, matplotlib, matplotlib.pyplot as plt, umap
+matplotlib.use("TkAgg")
+
+# ---------------- Config ----------------
+# AUDIO_DIR = "C:/Users/a1801526/PycharmProjects/WGP_laptop/UMAP/D_syllables" #laptop
+AUDIO_DIR = "/captive_calls/D_syllables"
+
 paths = sorted(glob.glob(os.path.join(AUDIO_DIR, "*.wav")))
 
-SR     = 16000
-N_FFT  = 1024
-HOP    = 256
+SR     = 22000
+N_FFT  = 2048
+HOP    = 128
 N_MELS = 128
 
 # Band (Mel limits)
-FMIN, FMAX = 1600, 4000
+FMIN, FMAX = 2000, 3500
 
 # ---------------- Load waveforms + labels (no amplitude/RMS normalisation) ----------------
 max_len = 0
@@ -36,7 +48,7 @@ def waveform_to_mel_raw(y):
     # Returns raw Mel power spectrogram (float) with no additional processing
     S = librosa.feature.melspectrogram(
         y=y, sr=SR, n_fft=N_FFT, hop_length=HOP,
-        n_mels=N_MELS, fmin=FMIN, fmax=FMAX, power=2.0
+        n_mels=N_MELS, fmin=FMIN, fmax=FMAX, power=0.5
     )  # shape: (n_mels, T)
     return S
 
