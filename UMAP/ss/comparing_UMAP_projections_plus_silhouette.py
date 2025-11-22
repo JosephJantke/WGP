@@ -5,7 +5,7 @@ matplotlib.use("TkAgg")
 
 # ---------------- Config ----------------
 # AUDIO_DIR = "C:/Users/a1801526/PycharmProjects/WGP_laptop/UMAP/D_syllables"  # laptop
-AUDIO_DIR = "C:/WGP/captive_calls/rising_step_syllables"
+AUDIO_DIR = "/captive_calls/rising_step_syllables"
 
 paths = sorted(glob.glob(os.path.join(AUDIO_DIR, "*.wav")))
 if not paths:
